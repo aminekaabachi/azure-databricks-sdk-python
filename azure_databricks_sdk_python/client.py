@@ -1,7 +1,23 @@
 
+from enum import Enum
+
+class AuthMethod(Enum):
+    PERSONAL_ACCESS_TOKEN = 'personal_access_token'
+    AZURE_AD_USER = 'azure_ad_user'
+    AZURE_AD_SERVICE_PRINCIPAL = 'azure_ad_service_principal'
+
 class BaseClient:
 
+    """ Base for API Clients """
+
     def __init__(self, databricks_instance, config={}):
+        """Initializing the base class for API Clients
+
+        Args:
+            databricks_instance (String): Databricks instance name (FQDN).
+            config (dict, optional): Contains connection 
+            parameters and useful information. Defaults to {}.
+        """
         self._version = '2.0'
         self._instance = databricks_instance
         self._base_url = 'https://{instance}/api/{version}'.format(instance=self._instance, version=self._version)
@@ -13,7 +29,7 @@ class BaseClient:
 class PersonalAccessTokenClient(BaseClient):
 
     def __init__(self, databricks_instance, personal_access_token):
-        config = {'auth_type': 'personal_access_token', 'token': personal_access_token}
+        config = {'auth_method': AuthMethod.PERSONAL_ACCESS_TOKEN, 'token': personal_access_token}
         super().__init__(databricks_instance, config)
 
 class AzureADUserClient(BaseClient):
@@ -27,7 +43,7 @@ class AzureADUserClient(BaseClient):
         if (resource_id):
             config = {'resource_id': resource_id}
         
-        config = {**{'auth_type': 'azure_ad_user', 'access_token': access_token}, **config}
+        config = {**{'auth_method': AuthMethod.AZURE_AD_USER, 'access_token': access_token}, **config}
         super().__init__(databricks_instance, config)
 
 
@@ -46,18 +62,18 @@ class AzureADServicePrincipalClient(BaseClient):
             # endpoint (via SCIM API).
             pass
 
-        config = {**{'auth_type': 'azure_ad_service_principal', 'access_token': access_token}, **config}
+        config = {**{'auth_method': AuthMethod.AZURE_AD_SERVICE_PRINCIPAL, 'access_token': access_token}, **config}
         super().__init__(databricks_instance, config)
 
 
 class Client:
     
-    def __new__(self, auth_method="personal_access_token", **kargs):
-        if (auth_method == "personal_access_token"):
+    def __new__(self, auth_method=AuthMethod.PERSONAL_ACCESS_TOKEN, **kargs):
+        if (auth_method == AuthMethod.PERSONAL_ACCESS_TOKEN):
             return self.use_personal_access_token(**kargs)
-        elif (auth_method == "azure_ad_user"):
+        elif (auth_method == AuthMethod.AZURE_AD_USER):
             return self.use_azure_ad_user(**kargs)
-        elif (auth_method == "using_azure_ad_service_principal"):
+        elif (auth_method == AuthMethod.AZURE_AD_SERVICE_PRINCIPAL):
             return self.use_azure_ad_service_principal(**kargs)
         else:
             raise Exception('Authentification method is not defined.')
