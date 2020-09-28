@@ -1,8 +1,7 @@
 # Azure Databricks SDK for Python
 
 [![Workflow Status](https://img.shields.io/github/workflow/status/aminekaabachi/azure-databricks-sdk-python/Unit%20Tests/master?style=flat-square)](https://github.com/aminekaabachi/azure-databricks-sdk-python/actions?query=workflow%3A%22Unit+Tests%22)
-[![Coveralls](https://img.shields.io/coveralls/github/aminekaabachi/azure-databricks-sdk-python?style=flat-square)](https://coveralls.io/github/aminekaabachi/azure-databricks-sdk-python)
-
+![Coveralls github](https://img.shields.io/coveralls/github/aminekaabachi/azure-databricks-sdk-python?style=flat-square)
 
 A Python SDK for the [Azure Databricks REST API 2.0](https://docs.azuredatabricks.net/api/latest/index.html)
 
