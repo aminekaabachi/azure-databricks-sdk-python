@@ -1,7 +1,7 @@
 name: Unit Tests
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - "azure_databricks_sdk_python/**.py"
       - "tests/**.py"
@@ -11,7 +11,7 @@ on:
       - "requirements-tests.txt"
   
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - "azure_databricks_sdk_python/**.py"
       - "tests/**.py"
