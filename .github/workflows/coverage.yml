@@ -40,7 +40,7 @@ jobs:
           if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
       - name: Run Test Suite
         run: |
-          pytest --cov azure_databricks_api --junitxml=junit/test-results.xml tests/
+          pytest --cov azure_databricks_sdk_python --junitxml=junit/test-results.xml tests/
       - name: Send Results to Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
