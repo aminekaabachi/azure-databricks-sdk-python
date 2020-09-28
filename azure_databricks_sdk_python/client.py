@@ -22,7 +22,8 @@ class AuthMethod(Enum):
 
 
 class Composer:
-
+    """ Composer
+    """
     def compose(self, args):
         print(args)
         return self
