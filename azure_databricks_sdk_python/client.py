@@ -1,31 +1,13 @@
+from azure_databricks_sdk_python.types import API_VERSION, AuthMethods
+from azure_databricks_sdk_python.tokens import Tokens
 
-from enum import Enum
-
-API_VERSION = 2.0
-
-
-class AuthMethod(Enum):
-    """Enum representing authentification method
-
-    For now there are three support auth method for the API:
-    - PERSONAL_ACCESS_TOKEN: Databricks personal access tokens [1].
-    - AZURE_AD_USER: Azure Active Directory access token [2].
-    - AZURE_AD_SERVICE_PRINCIPAL: Active Directory token using a service principal [3].
-
-    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/authentication
-    [2]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/aad/app-aad-token
-    [3]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/aad/service-prin-aad-token
-    """
-    PERSONAL_ACCESS_TOKEN = 'personal_access_token'
-    AZURE_AD_USER = 'azure_ad_user'
-    AZURE_AD_SERVICE_PRINCIPAL = 'azure_ad_service_principal'
 
 
 class Composer:
     """ Composer
     """
     def compose(self, args):
-        print(args)
+        self.tokens = Tokens(**args)
         return self
 
 
@@ -58,7 +40,7 @@ class BaseClient:
         """
 
         version = API_VERSION
-        base_url = 'https://{instance}/api/{version}'.format(
+        base_url = 'https://{instance}/api/{version}/'.format(
             instance=instance, version=version)
         return {**{'version': version, 'base_url': base_url}, **config}
 
@@ -91,8 +73,8 @@ class PersonalAccessTokenClient(BaseClient):
         Returns:
             dict: partial config.
         """
-        return {'auth_method': AuthMethod.PERSONAL_ACCESS_TOKEN,
-                'token': personal_access_token}
+        return {'auth_method': AuthMethods.PERSONAL_ACCESS_TOKEN,
+                'personal_access_token': personal_access_token}
 
 
 class AzureADUserClient(BaseClient):
@@ -124,7 +106,7 @@ class AzureADUserClient(BaseClient):
         config = {}
         if (resource_id):
             config = {'resource_id': resource_id}
-        return {**{'auth_method': AuthMethod.AZURE_AD_USER,
+        return {**{'auth_method': AuthMethods.AZURE_AD_USER,
                    'access_token': access_token}, **config}
 
 
@@ -170,25 +152,25 @@ class AzureADServicePrincipalClient(BaseClient):
             """
             pass
 
-        return {**{'auth_method': AuthMethod.AZURE_AD_SERVICE_PRINCIPAL,
+        return {**{'auth_method': AuthMethods.AZURE_AD_SERVICE_PRINCIPAL,
                    'access_token': access_token}, **config}
 
 
 class Client:
     """Factory for Clients"""
-    def __new__(cls, auth_method=AuthMethod.PERSONAL_ACCESS_TOKEN, **kargs):
+    def __new__(cls, auth_method=AuthMethods.PERSONAL_ACCESS_TOKEN, **kargs):
         """Return a client based on auth_method
 
         Args:
-            auth_method (AuthMethod, optional): authentification method. Defaults to AuthMethod.PERSONAL_ACCESS_TOKEN.
+            auth_method (AuthMethods, optional): authentification method. Defaults to AuthMethods.PERSONAL_ACCESS_TOKEN.
         """
         def auth_method_error(_): return (_ for _ in ()).throw(
             Exception('Authentification method not defined.'))
 
         methods = {
-            AuthMethod.PERSONAL_ACCESS_TOKEN: cls.use_personal_access_token,
-            AuthMethod.AZURE_AD_USER: cls.use_azure_ad_user,
-            AuthMethod.AZURE_AD_SERVICE_PRINCIPAL: cls.use_azure_ad_service_principal
+            AuthMethods.PERSONAL_ACCESS_TOKEN: cls.use_personal_access_token,
+            AuthMethods.AZURE_AD_USER: cls.use_azure_ad_user,
+            AuthMethods.AZURE_AD_SERVICE_PRINCIPAL: cls.use_azure_ad_service_principal
         }
 
         return methods.get(auth_method, auth_method_error)(**kargs)
@@ -222,13 +204,13 @@ class Client:
         return AzureADUserClient(databricks_instance, access_token, resource_id)
 
     @staticmethod
-    def use_azure_ad_service_principal(databricks_instance: str, access_token: str, management_token: str, resource_id: str = None):
+    def use_azure_ad_service_principal(databricks_instance: str, access_token: str, management_token: str = None, resource_id: str = None):
         """[summary]
 
         Args:
             databricks_instance (str): Databricks instance name (FQDN).
             access_token (str): Azure AD access token.
-            management_token (str): Azure AD management token.
+            management_token (str): Azure AD management token. Defaults to None.
             resource_id (str, optional): Databricks workspace resource ID. Defaults to None.
             Required only for admin sp. For non-admin, Service principal must
             be added to the workspace prior to login.

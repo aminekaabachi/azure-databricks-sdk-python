@@ -1,2 +1,2 @@
-from .client import Client
-from .client import AuthMethod
+from azure_databricks_sdk_python.client import Client
+from azure_databricks_sdk_python.types import AuthMethods
