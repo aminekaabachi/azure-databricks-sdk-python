@@ -5,11 +5,11 @@ import pytest
 
 def test_client_using_azure_ad_user():
     assert isinstance(Client(auth_method=AuthMethod.AZURE_AD_USER,
-                             databricks_instance="ddd", access_token="ddd"), AzureADUserClient)
+                             databricks_instance="ddd", access_token="ddd", resource_id="hello"), AzureADUserClient)
 
 def test_client_using_azure_ad_service_principal():
     assert isinstance(Client(auth_method=AuthMethod.AZURE_AD_SERVICE_PRINCIPAL,
-                             databricks_instance="ddd", access_token="ddd"), AzureADServicePrincipalClient)
+                             databricks_instance="ddd", access_token="ddd", management_token="ddd", resource_id="ddd"), AzureADServicePrincipalClient)
 
 def test_client_using_personal_access_token():
     assert isinstance(Client(databricks_instance="ddd",
