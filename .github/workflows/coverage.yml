@@ -1,0 +1,48 @@
+name: Unit Tests
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "azure_databricks_sdk_python/**.py"
+      - "tests/**.py"
+      - ".github/workflows/**.yml"
+      - ".coveragerc"
+      - "requirements.txt"
+      - "requirements-tests.txt"
+  
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "azure_databricks_sdk_python/**.py"
+      - "tests/**.py"
+      - ".github/workflows/**.yml"
+      - ".coveragerc"
+      - "requirements.txt"
+      - "requirements-tests.txt"
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8.2
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install coveralls coverage
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
+      - name: Run Test Suite
+        run: |
+          pytest --cov azure_databricks_api --junitxml=junit/test-results.xml tests/
+      - name: Send Results to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          coveralls
