@@ -1,8 +1,4 @@
-
 from enum import Enum
-from collections import namedtuple
-
-API_VERSION = 2.0
 
 class AuthMethods(Enum):
     """Enum representing authentification method
@@ -20,5 +16,3 @@ class AuthMethods(Enum):
     AZURE_AD_USER = 'azure_ad_user'
     AZURE_AD_SERVICE_PRINCIPAL = 'azure_ad_service_principal'
 
-
-PublicTokenInfo = namedtuple('PublicTokenInfo', ['token_id', 'creation_time', 'expiry_time', 'comment'])

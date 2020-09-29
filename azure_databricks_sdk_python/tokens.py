@@ -1,5 +1,5 @@
 from azure_databricks_sdk_python.api import API
-from azure_databricks_sdk_python.types import PublicTokenInfo
+from azure_databricks_sdk_python.types.tokens import PublicTokenInfo
 
 class Tokens(API):
     def __init__(self, **kwargs):
