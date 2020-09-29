@@ -41,7 +41,7 @@ Please refer to the progress below:
 | Permissions API | 0% |
 | SCIM API | 0% |
 | Secrets API | 0% |
-| Token API | 50% |
+| Token API | 100% ✔ |
 | Token Management API | 0% |
 | Workspace API | 0% |
 
