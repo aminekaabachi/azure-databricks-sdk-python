@@ -3,7 +3,7 @@ from azure_databricks_sdk_python.tokens import Tokens
 
 
 class Composer:
-    """ Composer
+    """ Composer that aggregates API classes
     """
     def compose(self, args):
         self.tokens = Tokens(**args)
