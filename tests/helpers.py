@@ -5,8 +5,6 @@ env = Env()
 env.read_env()
 
 def create_client():
-
-
     token = env.str("PERSONAL_ACCESS_TOKEN")
     instance = env.str("DATABRICKS_INSTANCE")
 
@@ -15,7 +13,7 @@ def create_client():
 def create_bad_client():
     env = Env()
     env.read_env()
-    
+
     instance = env.str("DATABRICKS_INSTANCE")
 
     return Client(databricks_instance=instance,  personal_access_token="wrong")

@@ -1,11 +1,21 @@
-from azure_databricks_sdk_python.types import API_VERSION, AuthMethods
+from azure_databricks_sdk_python.types import AuthMethods
 from azure_databricks_sdk_python.tokens import Tokens
 
+# Current API version
+API_VERSION = 2.0
 
 class Composer:
-    """ Composer that aggregates API classes
+    """ Composer that aggregates API wrappers.
     """
     def compose(self, args):
+        """composes self with API wrappers.
+
+        Args:
+            args (dict): configuration dict.
+
+        Returns:
+            Composer: return new composed object.
+        """
         self.tokens = Tokens(**args)
         return self
 
@@ -45,7 +55,7 @@ class BaseClient:
 
     def __getattr__(self, attr):
         """Implementing a composition with the self._composed object
-           hence Client.foo with now return self._composed.foo
+           hence Client().foo with now return self._composed().foo
         """
         return getattr(self._composed, attr)
 
@@ -204,7 +214,7 @@ class Client:
 
     @staticmethod
     def use_azure_ad_service_principal(databricks_instance: str, access_token: str, management_token: str = None, resource_id: str = None):
-        """[summary]
+        """Returns a azure_ad_service_principal client
 
         Args:
             databricks_instance (str): Databricks instance name (FQDN).
