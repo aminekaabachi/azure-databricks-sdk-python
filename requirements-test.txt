@@ -1,4 +1,4 @@
+environs
 pytest
-pytest-cov
 coveralls
 coverage

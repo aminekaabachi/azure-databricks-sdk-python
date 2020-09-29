@@ -2,7 +2,6 @@ from azure_databricks_sdk_python.types import API_VERSION, AuthMethods
 from azure_databricks_sdk_python.tokens import Tokens
 
 
-
 class Composer:
     """ Composer
     """

@@ -9,7 +9,7 @@
 A Python SDK for the [Azure Databricks REST API 2.0](https://docs.azuredatabricks.net/api/latest/index.html)
 
 ### Install
-This package is pip installable.
+You can install the package using pip:
 ```bash
 pip install azure-databricks-sdk-python
 ```
@@ -41,7 +41,7 @@ Please refer to the progress below:
 | Permissions API | 0% |
 | SCIM API | 0% |
 | Secrets API | 0% |
-| Token API | 0% |
+| Token API | 50% |
 | Token Management API | 0% |
 | Workspace API | 0% |
 

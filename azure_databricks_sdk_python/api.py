@@ -1,5 +1,6 @@
 import json
 import requests
+import urllib.parse
 
 from azure_databricks_sdk_python.types import AuthMethods
 
@@ -8,7 +9,7 @@ class API:
     def __init__(self, **kwargs):
         auth_method = kwargs.pop('auth_method')
         base_url = kwargs.pop('base_url')
-
+        print(base_url)
         if (auth_method == AuthMethods.PERSONAL_ACCESS_TOKEN):
             token = kwargs.pop('personal_access_token')
             self._dispatcher = APIWithPersonalAccessToken(
@@ -36,20 +37,23 @@ class API:
 
 class APIWithAuth:
     def _get(self, endpoint, data=None):
-        if endpoint.startswith('/'):
-            endpoint = endpoint[1:]
-        url = self._base_url + endpoint
+        url = urllib.parse.urljoin(self._base_url, endpoint.lstrip('/'))
+        print(url)
         return requests.get(url=url, headers=self._headers, json=data)
 
     def _post(self, endpoint, data):
-        if endpoint.startswith('/'):
-            endpoint = endpoint[1:]
-
         data_json = json.dumps(data, ensure_ascii=False)
-
         url = self._base_url + endpoint
+        url = urllib.parse.urljoin(self._base_url, endpoint.lstrip('/'))
         return requests.post(url=url, headers=self._headers, data=data_json)
 
+    def _handle_error(self, res):
+        if res.status_code == 403:  
+            raise Exception("Not authorized or invalid token.")
+        else:
+            raise Exception("Response code {0}: {1} {2}".format(res.status_code,
+                                                                        res.json().get('error_code'),
+                                                                        res.json().get('message')))
 
 class APIWithPersonalAccessToken(APIWithAuth):
     def __init__(self, base_url, personal_access_token):
@@ -69,7 +73,6 @@ class APIWithAzureADUser(APIWithAuth):
             self._headers = {
                 'X-Databricks-Azure-Workspace-Resource-Id': self._resource_id, 
                 **self._headers}
-
 
 class APIWithAzureADServicePrincipal(APIWithAuth):
     def __init__(self, base_url, access_token, management_token, resource_id):
