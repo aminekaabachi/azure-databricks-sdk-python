@@ -10,7 +10,7 @@ azure-databricks-sdk-python documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   README <README.md>
 
 Indices and tables
 ==================

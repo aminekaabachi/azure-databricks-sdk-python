@@ -1,7 +1,5 @@
 environs==8.0.0
 pytest==6.1.0
-python-dotenv==0.14.0
+pytest-cov
 coverage >= 5.1
 coveralls >= 2.0.0
-sphinx
-sphinxcontrib-mermaid
