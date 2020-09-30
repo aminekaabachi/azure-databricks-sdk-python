@@ -21,19 +21,9 @@ import sys
 
 from recommonmark.transform import AutoStructify
 
-# Work around https://github.com/readthedocs/recommonmark/issues/152
-new_readme = []
+# import azure_databricks_sdk_python
 
-with open("../../README.md", "r") as r:
-    lines = r.readlines()
-    for l in lines:
-        nl = re.sub("\[!\[[\w\s]+\]\(", "[![](", l)
-        new_readme.append(nl)
-
-with open("README.md", "w") as n:
-    n.writelines(new_readme)
-
-# apparently index.rst can't search for markdown not in the same directory
+# # apparently index.rst can't search for markdown not in the same directory
 # shutil.copy("../../CONTRIBUTING.md", ".")
 
 sys.path.insert(0, os.path.abspath('../..'))
@@ -58,7 +48,9 @@ extensions = [
     'sphinx_markdown_tables',
     'recommonmark',
     'sphinx.ext.autodoc',
-    #'sphinx.ext.intersphinx',
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.todo",
+    "sphinx.ext.viewcode"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -69,6 +61,13 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+# # The short X.Y version.
+# version = azure_databricks_sdk_python.__version__
+# # The full version, including alpha/beta/rc tags.
+# release = azure_databricks_sdk_python.__version__
+
+version = '0.0.1'
+release = '0.0.1'
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -77,6 +76,21 @@ exclude_patterns = []
 #
 html_theme = 'alabaster'
 
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+html_theme = "alabaster"
+
+# Theme options are theme-specific and customize the look and feel of a theme
+# further.  For a list of options available for each theme, see the
+# documentation.
+html_theme_options = {
+    "show_powered_by": False,
+    "github_user": "aminekaabachi",
+    "github_repo": "azure-databricks-sdk-python",
+    "github_banner": True,
+    "show_related": False,
+    "note_bg": "#FFF59C",
+}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -93,3 +107,19 @@ add_module_names = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
+
+# If true, SmartyPants will be used to convert quotes and dashes to
+# typographically correct entities.
+html_use_smartypants = False
+
+# Custom sidebar templates, maps document names to template names.
+html_sidebars = {
+    "**": [
+        "sidebar.html",
+        "hacks.html"
+        # "relations.html",
+        # "sourcelink.html",
+        # "searchbox.html",
+        # "hacks.html",
+    ],
+}
