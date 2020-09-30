@@ -30,7 +30,7 @@ Please refer to the progress below:
 
 | API  | Progress |
 | :--- | :---: | 
-| Clusters API | 0% |
+| Clusters API | 80% |
 | Clusters Policies API | 0% |
 | DBFS API  | 0% |
 | Groups API  | 0% |

@@ -1,12 +1,13 @@
 from azure_databricks_sdk_python.types import AuthMethods
 from azure_databricks_sdk_python.tokens import Tokens
+from azure_databricks_sdk_python.clusters import Clusters
+
 
 # Current API version
 API_VERSION = 2.0
 
 class Composer:
-    """ Composer that aggregates API wrappers.
-    """
+    """ Composer that aggregates API wrappers """
     def compose(self, args):
         """composes self with API wrappers.
 
@@ -17,11 +18,11 @@ class Composer:
             Composer: return new composed object.
         """
         self.tokens = Tokens(**args)
+        self.clusters = Clusters(**args)
         return self
 
 
 class BaseClient:
-
     """ Base Class for API Clients """
 
     def __init__(self, databricks_instance: str, composer: Composer, config={}):

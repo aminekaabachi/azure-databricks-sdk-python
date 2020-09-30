@@ -1,6 +1,7 @@
 import json
 import requests
 import urllib.parse
+from cattr import structure, unstructure
 
 from azure_databricks_sdk_python.types import AuthMethods
 
@@ -107,6 +108,57 @@ class APIWithAuth:
             raise Exception("Response code {0}: {1} {2}".format(res.status_code,
                                                                 res.json().get('error_code'),
                                                                 res.json().get('message')))
+
+    def _safe_handle(self, res, value, type=None):
+        """Helper method to safely handle http response
+
+        Args:
+            res (Response): http response.
+            value (any): value to return.
+
+        Returns:
+            any: the returned object. Raise exception if code is not 200.
+        """
+        
+        if res.status_code == 200:
+            if type:
+                return structure(value, type)
+            else:
+                return value
+        else:
+            self._handle_error(res)
+
+    def _validate(self, req, type, validate=True):
+        """Validates users input to be passed to api
+
+        Args:
+            req (object): user input.
+            type (object): the type to be validated against.
+            validate (bool): to validate or not the input against the type.
+
+        Raises:
+            ValueError: if validates=True, Raises in case the input is not type serializable.
+            ValueError: if validates=True,Raises in case the input is not a dict.
+
+        Returns:
+            dict: the input data in dict format.
+        """
+        data = req
+
+        if validate:
+            print(type)
+            if not isinstance(req, type):
+                try:
+                    data = structure(req, type)
+                except Exception as err:
+                    raise ValueError(
+                        'Request is a valid {0}: {1}'.format(type.__name__, err))
+            return unstructure(data)
+        else:
+            if not isinstance(req, dict):
+                raise ValueError(
+                    'Request is not a dict. {0}: {1} passed instead.'.format(type(req), req))
+            return data
 
 
 class APIWithPersonalAccessToken(APIWithAuth):

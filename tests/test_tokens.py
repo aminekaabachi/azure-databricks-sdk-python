@@ -1,16 +1,24 @@
 from .helpers import create_client, create_bad_client
 import pytest
+from typing import List
+from azure_databricks_sdk_python.client import PersonalAccessTokenClient
 
 client = create_client()
 
-def test_tokens_operations():
-    tokens = client.tokens.list()
-    new_token = client.tokens.create(lifetime_seconds=None)
-    new_tokens = client.tokens.list()
-    assert len(tokens) == len(new_tokens)-1
-    client.tokens.delete(token_id=new_token.get('token_info').token_id)
-    new_tokens = client.tokens.list()
-    assert len(tokens) == len(new_tokens)
+
+@pytest.mark.order2
+def test_token_create_and_delete():
+    length = len(client.tokens.list())
+    token = client.tokens.create(lifetime_seconds=None)
+    client.tokens.delete(token_id=token.get('token_info').token_id)
+    assert length == len(client.tokens.list())
+
+@pytest.mark.order1
+def test_tokens_list():
+    list = client.tokens.list()
+    if isinstance(client, PersonalAccessTokenClient):
+        assert len(list) > 0
+    assert isinstance(list, List)
 
 
 def test_token_creation_error():
