@@ -10,7 +10,7 @@ client = create_client()
 def test_token_create_and_delete():
     length = len(client.tokens.list())
     token = client.tokens.create(lifetime_seconds=None)
-    client.tokens.delete(token_id=token.get('token_info').token_id)
+    client.tokens.delete(token_id=token.token_info.token_id)
     assert length == len(client.tokens.list())
 
 @pytest.mark.order1

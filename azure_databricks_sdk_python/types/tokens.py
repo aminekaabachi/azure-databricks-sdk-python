@@ -12,6 +12,15 @@ class PublicTokenInfo:
     expiry_time: int = attr.ib()
     comment: str = attr.ib()
 
+
+@attr.s
+class Token:
+    """Token: represents a token.
+    Not official in the API data structures.
+    """
+    token_value: str = attr.ib()
+    token_info: PublicTokenInfo = attr.ib()
+
 @attr.s
 class TokenId:
     """TokenId: represents a token id.

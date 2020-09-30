@@ -74,7 +74,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/events'
         data = self._validate(req, ClusterEventRequest, not force)
-        res = self._post(endpoint, unstructure(data))
+        res = self._post(endpoint, data)
         return self._safe_handle(res, res.json(), ClusterEventResponse)
 
     def pin(self, cluster_id):
@@ -152,7 +152,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/resize'
         data = self._validate(req, ClusterResizeRequest, not force)
-        res = self._post(endpoint, unstructure(data))
+        res = self._post(endpoint, data)
         return self._safe_handle(res, ClusterId(cluster_id=data.get('cluster_id')))
 
     def restart(self, cluster_id):
@@ -199,7 +199,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/create'
         data = self._validate(req, ClusterAttributes, not force)
-        res = self._post(endpoint, unstructure(data))
+        res = self._post(endpoint, data)
         return self._safe_handle(res, res.json(), ClusterId)
 
     def edit(self, req: ClusterAttributes, force: bool = True):
@@ -215,5 +215,5 @@ class Clusters(API):
         """
         endpoint = '/clusters/edit'
         data = self._validate(req, ClusterAttributes, force)
-        res = self._post(endpoint, unstructure(data))
+        res = self._post(endpoint, data)
         return self._safe_handle(res, res.json(), ClusterId)

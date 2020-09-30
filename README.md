@@ -18,7 +18,7 @@ pip install azure-databricks-sdk-python
 
 ```python
 
-from azure-databricks-sdk-python import Client
+from azure_databricks_sdk_python import Client
 
 client = Client(databricks_instance="<instance>", personal_access_token="<token>")
 

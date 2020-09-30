@@ -1,5 +1,5 @@
 from azure_databricks_sdk_python.api import API
-from azure_databricks_sdk_python.types.tokens import PublicTokenInfo, TokenId
+from azure_databricks_sdk_python.types.tokens import PublicTokenInfo, TokenId, Token
 
 from cattr import structure
 from typing import List
@@ -22,7 +22,7 @@ class Tokens(API):
         endpoint = '/token/list'
 
         res = self._get(endpoint)
-        return self._safe_handle(res, structure(res.json().get('token_infos'), List[PublicTokenInfo]))
+        return self._safe_handle(res, res.json().get('token_infos'), List[PublicTokenInfo])
 
     def create(self, comment: str = None, lifetime_seconds: int = 7776000):
         """Create and return a token. 
@@ -42,8 +42,7 @@ class Tokens(API):
                 'comment': comment}
 
         res = self._post(endpoint, data)
-        return self._safe_handle(res, {'token_value': res.json().get('token_value'),
-                                                   'token_info': PublicTokenInfo(**res.json().get('token_info'))})
+        return self._safe_handle(res, res.json(), Token)
 
     def delete(self, token_id: str):
         """Revoke an access token. 
