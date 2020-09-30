@@ -14,7 +14,7 @@
 
 -----------------
 
-Easily, perform all the operations as if on the databricks UI:
+Easily, perform all the operations as if on the Databricks UI:
 ```python
 from azure_databricks_sdk_python import Client
 from azure_databricks_sdk_python.types.clusters import AutoScale, ClusterAttributes
