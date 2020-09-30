@@ -1,6 +1,8 @@
 from azure_databricks_sdk_python.api import API
 from azure_databricks_sdk_python.types.tokens import PublicTokenInfo
 
+from cattr import structure
+from typing import List
 
 class Tokens(API):
     """The Token API allows you to create, list, and revoke tokens
@@ -19,7 +21,7 @@ class Tokens(API):
         endpoint = '/token/list'
         res = self._get(endpoint)
         if res.status_code == 200:
-            return [PublicTokenInfo(**token) for token in res.json().get('token_infos')]
+            return structure(res.json().get('token_infos'), List[PublicTokenInfo])
         else:
             self._handle_error(res)
 
