@@ -4,7 +4,10 @@
 [![Coveralls github](https://img.shields.io/coveralls/github/aminekaabachi/azure-databricks-sdk-python?style=flat-square)](https://coveralls.io/github/aminekaabachi/azure-databricks-sdk-python?branch=master)
 [![PyPI](https://img.shields.io/pypi/v/azure-databricks-sdk-python?style=flat-square)](https://pypi.org/project/azure-databricks-sdk-python/)
 [![Downloads](https://img.shields.io/pypi/dm/azure-databricks-sdk-python?style=flat-square)](https://pypi.org/project/azure-databricks-sdk-python/)
+[![Docs](https://readthedocs.org/projects/azure-databricks-sdk-python/badge/?version=latest&style=flat-square)](https://azure-databricks-sdk-python.readthedocs.io/en/latest/)
 [![GitHub](https://img.shields.io/github/license/aminekaabachi/azure-databricks-sdk-python?style=flat-square)](https://github.com/aminekaabachi/azure-databricks-sdk-python/blob/master/LICENSE)
+
+
 
 
 **azure-databricks-sdk-python** is a Python SDK for the [`Azure Databricks REST API 2.0`](<https://docs.microsoft.com/en-gb/azure/databricks/dev-tools/api/latest/>).
