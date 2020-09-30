@@ -1,5 +1,6 @@
 environs==8.0.0
 pytest==6.1.0
 pytest-cov
+pytest-ordering
 coverage >= 5.1
 coveralls >= 2.0.0

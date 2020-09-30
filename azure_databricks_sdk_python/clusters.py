@@ -98,7 +98,6 @@ class Clusters(API):
         """Allows the cluster to eventually be removed from the list returned 
         by the List API. Unpinning a cluster that is not pinned has no effect.
 
-
         Args:
             cluster_id (str):The cluster to pin. This field is required.
 

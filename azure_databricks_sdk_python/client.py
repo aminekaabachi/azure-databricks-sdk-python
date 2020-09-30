@@ -7,8 +7,7 @@ from azure_databricks_sdk_python.clusters import Clusters
 API_VERSION = 2.0
 
 class Composer:
-    """ Composer that aggregates API wrappers.
-    """
+    """ Composer that aggregates API wrappers """
     def compose(self, args):
         """composes self with API wrappers.
 
@@ -24,7 +23,6 @@ class Composer:
 
 
 class BaseClient:
-
     """ Base Class for API Clients """
 
     def __init__(self, databricks_instance: str, composer: Composer, config={}):

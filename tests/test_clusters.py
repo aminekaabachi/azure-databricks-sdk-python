@@ -3,87 +3,50 @@ from azure_databricks_sdk_python.types.clusters import *
 
 import pytest
 import cattr
+
 client = create_client()
+attributes = {
+    'cluster_name': 'test-cluster-from-dict-forced',
+    'spark_version': '7.2.x-scala2.12',
+    'node_type_id': 'Standard_D3_v2',
+    'spark_conf': {
+        'spark.speculation': True
+    },
+    'num_workers': 1
+}
+
+def test_clusters_create_dict_forced():
+
+    created_id = client.clusters.create(attributes, False)
+    deleted_id = client.clusters.delete(cluster_id=created_id.cluster_id)
+    assert created_id.cluster_id == deleted_id.cluster_id
 
 
-def test_clusters_operations():
-    clusters = client.clusters.list()
-    # rint(clusters)
-    assert False
-
-
-def test_cluster_get():
-    cluster = client.clusters.get('0918-220215-atria616')
-    print(cluster)
-    assert False
-
-
-def test_cluster_unpin():
-    unpinned = client.clusters.unpin('0918-220215-atria616')
-    print(unpinned)
-    assert False
-
-
-def test_cluster_pin():
-    pinned = client.clusters.pin('0918-220215-atria616')
-    print(pinned)
-    assert False
-
-
-def test_cluster_events():
-    events = client.clusters.events(
-        ClusterEventRequest(cluster_id='0918-220215-atria616', limit=1))
-    print(events)
-    events = client.clusters.events(
-        {'cluster_id': '0918-220215-atria616'})
-    print(events)
-    events = client.clusters.events(222, False)
-    print(events)
-    assert False
-
-
-def test_list_node_types():
-    node_types = client.clusters.list_node_types()
-    # print(node_types)
-    assert False
-
-
-def test_list_spark_versions():
-    spark_versions = client.clusters.spark_versions()
-    print(spark_versions)
-    assert False
-
-
-def test_clusters_list_error():
-    with pytest.raises(Exception):
-        bad_client = create_bad_client()
-        bad_client.clusters.list()
-
-
-def test_clusters_create_dict():
-    attributes = {
-        'cluster_name': 'my-cluster-from-dict',
-        'spark_version': '7.2.x-scala2.12',
-        'node_type_id': 'Standard_D3_v2',
-        'spark_conf': {
-            'spark.speculation': True
-        },
-        'num_workers': 1
-    }
-    client_id = client.clusters.create(attributes, False)
-    print(client_id)
-    assert False
-
-
-def test_clusters_create_obj():
+def test_clusters_create_terminate_and_delete_obj():
+    # create cluser
     spark_conf = {'spark.speculation': True}
     autoscale = AutoScale(min_workers=0, max_workers=1)
-    attributes = ClusterAttributes(cluster_name="my-cluster-from-obj",
+    attributes = ClusterAttributes(cluster_name="test-cluster-from-obj",
                                    spark_version="7.2.x-scala2.12",
                                    node_type_id="Standard_D3_v2",
                                    spark_conf=spark_conf,
                                    autoscale=autoscale)
-    client_id = client.clusters.create(attributes)
-    print(client_id)
-    assert False
+    created_id = client.clusters.create(attributes)
 
+    # terminate it
+    terminated_id = client.clusters.delete(cluster_id=created_id.cluster_id)
+
+    # delete it
+    delete_id = client.clusters.permanent_delete(cluster_id=created_id.cluster_id)
+
+    assert created_id.cluster_id == terminated_id.cluster_id
+    assert created_id.cluster_id == delete_id.cluster_id
+
+
+def test_cluster_unpin_pin():
+    created_id = client.clusters.create(attributes, False)
+    unpinned = client.clusters.unpin(cluster_id=created_id.cluster_id)
+    pinned = client.clusters.pin(cluster_id=created_id.cluster_id)
+    unpinned = client.clusters.unpin(cluster_id=created_id.cluster_id)
+    client.clusters.permanent_delete(cluster_id=created_id.cluster_id)
+    assert unpinned.cluster_id == pinned.cluster_id
