@@ -173,7 +173,6 @@ class ClusterInfo:
     """ClusterInfo:  Metadata about a cluster [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterinfo
     """
-    cluster_id: str = attr.ib()
     creator_user_name: str = attr.ib()
     cluster_name: str = attr.ib()
     spark_version: str = attr.ib()
@@ -329,13 +328,6 @@ class ClusterSource(Enum):
     UI = 'UI'
     JOB = 'JOB'
     API = 'API'
-
-
-ClusterAttributes = namedtuple(
-    'ClusterAttributes', ['cluster_name', 'spark_version', 'spark_conf', 'node_type_id',
-                          'driver_node_type_id', 'ssh_public_keys', 'custom_tags', 'cluster_log_conf', 'init_scripts',
-                          'docker_image', 'spark_env_vars', 'autotermination_minutes', 'enable_elastic_disk',
-                          'instance_pool_id', 'cluster_source', 'policy_id'])
 
 
 @attr.s
