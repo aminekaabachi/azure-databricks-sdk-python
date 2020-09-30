@@ -1,5 +1,5 @@
 from .helpers import create_client, create_bad_client
-from azure_databricks_sdk_python.types.clusters import ClusterEventRequest
+from azure_databricks_sdk_python.types.clusters import *
 
 import pytest
 import cattr
@@ -17,10 +17,12 @@ def test_cluster_get():
     print(cluster)
     assert False
 
+
 def test_cluster_unpin():
     unpinned = client.clusters.unpin('0918-220215-atria616')
     print(unpinned)
     assert False
+
 
 def test_cluster_pin():
     pinned = client.clusters.pin('0918-220215-atria616')
@@ -56,3 +58,32 @@ def test_clusters_list_error():
     with pytest.raises(Exception):
         bad_client = create_bad_client()
         bad_client.clusters.list()
+
+
+def test_clusters_create_dict():
+    attributes = {
+        'cluster_name': 'my-cluster-from-dict',
+        'spark_version': '7.2.x-scala2.12',
+        'node_type_id': 'Standard_D3_v2',
+        'spark_conf': {
+            'spark.speculation': True
+        },
+        'num_workers': 1
+    }
+    client_id = client.clusters.create(attributes, False)
+    print(client_id)
+    assert False
+
+
+def test_clusters_create_obj():
+    spark_conf = {'spark.speculation': True}
+    autoscale = AutoScale(min_workers=0, max_workers=1)
+    attributes = ClusterAttributes(cluster_name="my-cluster-from-obj",
+                                   spark_version="7.2.x-scala2.12",
+                                   node_type_id="Standard_D3_v2",
+                                   spark_conf=spark_conf,
+                                   autoscale=autoscale)
+    client_id = client.clusters.create(attributes)
+    print(client_id)
+    assert False
+

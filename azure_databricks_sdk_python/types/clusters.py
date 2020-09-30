@@ -15,7 +15,7 @@ class AutoScale:
 
 @attr.s
 class SparkNode:
-    """# SparkNode: Spark driver or executor configuration [1].
+    """SparkNode: Spark driver or executor configuration [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#sparknode
     """
     private_ip: str = attr.ib()
@@ -344,13 +344,16 @@ class ClusterAttributes:
     These attributes cannot be changed over the lifetime of a cluster. [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterattributes
     """
-    cluster_name: str = attr.ib()
     spark_version: str = attr.ib()
     node_type_id: str = attr.ib()
-    driver_node_type_id: str = attr.ib()
-    autotermination_minutes: str = attr.ib()
-    enable_elastic_disk: bool = attr.ib()
-    cluster_source: ClusterSource = attr.ib()
+    num_workers: int = attr.ib(default=None)
+    autoscale: AutoScale = attr.ib(default=None)
+    autotermination_minutes: str = attr.ib(default=None)
+    driver_node_type_id: str = attr.ib(default=None)
+    cluster_id: str = attr.ib(default=None)
+    cluster_name: str = attr.ib(default=None)
+    cluster_source: ClusterSource = attr.ib(default=None)
+    enable_elastic_disk: bool = attr.ib(default=None)
     ssh_public_keys: List[str] = attr.ib(default=None)
     spark_conf: Dict = attr.ib(default=None)
     custom_tags: Dict = attr.ib(default=None)
@@ -360,6 +363,7 @@ class ClusterAttributes:
     spark_env_vars: Dict = attr.ib(default=None)
     instance_pool_id: str = attr.ib(default=None)
     policy_id: str = attr.ib(default=None)
+    idempotency_token: str = attr.ib(default=None)
 
 @attr.s
 class EventDetails:

@@ -22,7 +22,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/list'
         res = self._get(endpoint)
-        return self._safe_handle(res, structure(res.json().get('clusters'), List[ClusterInfo]))
+        return self._safe_handle(res, res.json().get('clusters'), List[ClusterInfo])
 
     def list_node_types(self):
         """Return a list of supported Spark node types. 
@@ -33,7 +33,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/list-node-types'
         res = self._get(endpoint)
-        return self._safe_handle(res, structure(res.json().get('node_types'), List[NodeType]))
+        return self._safe_handle(res, res.json().get('node_types'), List[NodeType])
 
     def spark_versions(self):
         """Return the list of available runtime versions. 
@@ -45,7 +45,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/spark-versions'
         res = self._get(endpoint)
-        return self._safe_handle(res, structure(res.json().get('versions'), List[SparkVersion]))
+        return self._safe_handle(res, res.json().get('versions'), List[SparkVersion])
 
     def get(self, cluster_id):
         """Retrieve the information for a cluster given its identifier. 
@@ -60,7 +60,7 @@ class Clusters(API):
         endpoint = '/clusters/get'
         data = {'cluster_id': cluster_id}
         res = self._get(endpoint, data)
-        return self._safe_handle(res, structure(res.json(), ClusterInfo))
+        return self._safe_handle(res, res.json(), ClusterInfo)
 
     def events(self, req: ClusterEventRequest, force: bool = True):
         """Retrieve a list of events about the activity of a cluster. 
@@ -75,7 +75,7 @@ class Clusters(API):
         endpoint = '/clusters/events'
         data = self._validate(req, ClusterEventRequest, force)
         res = self._post(endpoint, unstructure(data))
-        return self._safe_handle(res, structure(res.json(), ClusterEventResponse))
+        return self._safe_handle(res, res.json(), ClusterEventResponse)
 
     def pin(self, cluster_id):
         """Ensure that an all-purpose cluster configuration is retained 
@@ -92,7 +92,7 @@ class Clusters(API):
         endpoint = '/clusters/pin'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
 
     def unpin(self, cluster_id):
         """Allows the cluster to eventually be removed from the list returned 
@@ -108,7 +108,7 @@ class Clusters(API):
         endpoint = '/clusters/unpin'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
 
     def delete(self, cluster_id):
         """Terminate a cluster given its ID. 
@@ -123,7 +123,7 @@ class Clusters(API):
         endpoint = '/clusters/delete'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
 
     def permanent_delete(self, cluster_id):
         """Permanently delete a cluster. 
@@ -135,10 +135,10 @@ class Clusters(API):
         Returns:
             ClusterId: in case of success or will raise an exception.
         """
-        endpoint = '/clusters/delete'
+        endpoint = '/clusters/permanent-delete'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
 
     def resize(self, req: ClusterResizeRequest, force: bool = True):
         """Resize a cluster to have a desired number of workers. 
@@ -154,7 +154,7 @@ class Clusters(API):
         endpoint = '/clusters/resize'
         data = self._validate(req, ClusterResizeRequest, force)
         res = self._post(endpoint, unstructure(data))
-        return self._safe_handle(res, structure(res.json(), ClusterEventResponse))
+        return self._safe_handle(res, ClusterId(cluster_id=data.get('cluster_id')))
 
     def restart(self, cluster_id):
         """Restart a cluster given its ID.
@@ -167,10 +167,10 @@ class Clusters(API):
         Returns:
             ClusterId: in case of success or will raise an exception.
         """
-        endpoint = '/clusters/resize'
+        endpoint = '/clusters/restart'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
 
     def start(self, cluster_id):
         """Start a terminated cluster given its ID.
@@ -182,7 +182,39 @@ class Clusters(API):
         Returns:
             ClusterId: in case of success or will raise an exception.
         """
-        endpoint = '/clusters/resize'
+        endpoint = '/clusters/start'
         data = {'cluster_id': cluster_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, ClusterId))
+        return self._safe_handle(res, data, ClusterId)
+
+    def create(self, req: ClusterAttributes, force: bool = True):
+        """Create a new Apache Spark cluster. 
+        This method acquires new instances from the cloud provider if necessary. 
+
+        Args:
+            req (ClusterAttributes): Common set of attributes set during cluster creation. This field is required.
+            force (bool): If false, it will check that req is a dict 
+            then pass it as is, with no type validation.
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/create'
+        data = self._validate(req, ClusterAttributes, force)
+        res = self._post(endpoint, unstructure(data))
+        return self._safe_handle(res, res.json(), ClusterId)
+
+    def edit(self, req: ClusterAttributes, force: bool = True):
+        """Edit the configuration of a cluster 
+        to match the provided attributes and size.
+
+        Args
+            req (ClusterAttributes): Common set of attributes set during cluster creation. This field is required.
+            force (bool): If false, it will check that req is a dict 
+            then pass it as is, with no type validation.
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/edit'
+        data = self._validate(req, ClusterAttributes, force)
+        res = self._post(endpoint, unstructure(data))
+        return self._safe_handle(res, res.json(), ClusterId)

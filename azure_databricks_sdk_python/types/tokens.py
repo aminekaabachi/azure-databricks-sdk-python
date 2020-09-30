@@ -12,8 +12,6 @@ class PublicTokenInfo:
     expiry_time: int = attr.ib()
     comment: str = attr.ib()
 
-
-
 @attr.s
 class TokenId:
     """TokenId: represents a token id.

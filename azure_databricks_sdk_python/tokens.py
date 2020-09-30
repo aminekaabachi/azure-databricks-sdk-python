@@ -57,4 +57,4 @@ class Tokens(API):
         endpoint = '/token/delete'
         data = {'token_id': token_id}
         res = self._post(endpoint, data)
-        return self._safe_handle(res, structure(data, TokenId))
+        return self._safe_handle(res, data, TokenId)

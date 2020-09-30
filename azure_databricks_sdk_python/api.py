@@ -109,7 +109,7 @@ class APIWithAuth:
                                                                 res.json().get('error_code'),
                                                                 res.json().get('message')))
 
-    def _safe_handle(self, res, value):
+    def _safe_handle(self, res, value, type=None):
         """Helper method to safely handle http response
 
         Args:
@@ -119,8 +119,12 @@ class APIWithAuth:
         Returns:
             any: the returned object. Raise exception if code is not 200.
         """
+        
         if res.status_code == 200:
-            return value
+            if type:
+                return structure(value, type)
+            else:
+                return value
         else:
             self._handle_error(res)
 
