@@ -25,7 +25,7 @@ Release v\ |version|. (:ref:`Installation <install>`)
 
 **azure-databricks-sdk-python** is a Python SDK for the `Azure Databricks REST API 2.0 <https://docs.microsoft.com/en-gb/azure/databricks/dev-tools/api/latest/>`_.
 
--------------------
+---
 
 Easily, perform all the operations as if on the databricks UI::
 
@@ -80,6 +80,6 @@ this part of the documentation is for you.
    :maxdepth: 2
 
    api
-   
+
 There are no more guides. You are now guideless.
 Good luck.
