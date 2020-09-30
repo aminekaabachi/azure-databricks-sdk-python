@@ -17,7 +17,7 @@ attributes = {
 
 def test_clusters_create_dict_forced():
 
-    created_id = client.clusters.create(attributes, False)
+    created_id = client.clusters.create(attributes, True)
     deleted_id = client.clusters.delete(cluster_id=created_id.cluster_id)
     assert created_id.cluster_id == deleted_id.cluster_id
 
