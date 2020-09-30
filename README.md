@@ -24,6 +24,42 @@ client = Client(databricks_instance="<instance>", personal_access_token="<token>
 
 ```
 
+## Examples
+
+### How to create a cluster
+
+You can use the defined types:
+
+```python
+
+from azure_databricks_sdk_python.types.clusters import AutoScale, ClusterAttributes
+
+spark_conf = {'spark.speculation': True}
+autoscale = AutoScale(min_workers=0, max_workers=1)
+attributes = ClusterAttributes(cluster_name="my-cluster",
+                                spark_version="7.2.x-scala2.12",
+                                node_type_id="Standard_D3_v2",
+                                spark_conf=spark_conf,
+                                autoscale=autoscale)
+created_id = client.clusters.create(attributes)
+```
+
+or, you can force an API request with a dict:
+
+```python
+attributes = {
+    'cluster_name': 'my-cluster',
+    'spark_version': '7.2.x-scala2.12',
+    'node_type_id': 'Standard_D3_v2',
+    'spark_conf': {
+        'spark.speculation': True
+    },
+    'num_workers': 1
+}
+created_id = client.clusters.create(attributes, force=True)
+```
+
+
 ## Implementation Progress
 
 Please refer to the progress below:

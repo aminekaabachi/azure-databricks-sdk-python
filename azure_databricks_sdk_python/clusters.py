@@ -62,7 +62,7 @@ class Clusters(API):
         res = self._get(endpoint, data)
         return self._safe_handle(res, res.json(), ClusterInfo)
 
-    def events(self, req: ClusterEventRequest, force: bool = True):
+    def events(self, req: ClusterEventRequest, force: bool = False):
         """Retrieve a list of events about the activity of a cluster. 
 
         Args:
@@ -73,7 +73,7 @@ class Clusters(API):
             ClusterEventResponse: Cluster event request response structure.
         """
         endpoint = '/clusters/events'
-        data = self._validate(req, ClusterEventRequest, force)
+        data = self._validate(req, ClusterEventRequest, not force)
         res = self._post(endpoint, unstructure(data))
         return self._safe_handle(res, res.json(), ClusterEventResponse)
 
@@ -139,7 +139,7 @@ class Clusters(API):
         res = self._post(endpoint, data)
         return self._safe_handle(res, data, ClusterId)
 
-    def resize(self, req: ClusterResizeRequest, force: bool = True):
+    def resize(self, req: ClusterResizeRequest, force: bool = False):
         """Resize a cluster to have a desired number of workers. 
         The cluster must be in the RUNNING state.
 
@@ -151,7 +151,7 @@ class Clusters(API):
             ClusterId: in case of success or will raise an exception.
         """
         endpoint = '/clusters/resize'
-        data = self._validate(req, ClusterResizeRequest, force)
+        data = self._validate(req, ClusterResizeRequest, not force)
         res = self._post(endpoint, unstructure(data))
         return self._safe_handle(res, ClusterId(cluster_id=data.get('cluster_id')))
 
@@ -186,7 +186,7 @@ class Clusters(API):
         res = self._post(endpoint, data)
         return self._safe_handle(res, data, ClusterId)
 
-    def create(self, req: ClusterAttributes, force: bool = True):
+    def create(self, req: ClusterAttributes, force: bool = False):
         """Create a new Apache Spark cluster. 
         This method acquires new instances from the cloud provider if necessary. 
 
@@ -198,7 +198,7 @@ class Clusters(API):
             ClusterId: in case of success or will raise an exception.
         """
         endpoint = '/clusters/create'
-        data = self._validate(req, ClusterAttributes, force)
+        data = self._validate(req, ClusterAttributes, not force)
         res = self._post(endpoint, unstructure(data))
         return self._safe_handle(res, res.json(), ClusterId)
 
