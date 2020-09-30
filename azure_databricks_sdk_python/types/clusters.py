@@ -3,21 +3,21 @@ from enum import Enum, unique
 from typing import Optional, List, Dict
 import attr
 
-# AutoScale:  Range defining the min and max number of cluster workers [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#autoscale
-
 
 @attr.s
 class AutoScale:
+    """AutoScale:  Range defining the min and max number of cluster workers [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#autoscale
+    """
     min_workers: int = attr.ib()
     max_workers: int = attr.ib()
-
-# SparkNode: Spark driver or executor configuration [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#sparknode
 
 
 @attr.s
 class SparkNode:
+    """# SparkNode: Spark driver or executor configuration [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#sparknode
+    """
     private_ip: str = attr.ib()
     public_dns: str = attr.ib()
     node_id: str = attr.ib()
@@ -26,41 +26,44 @@ class SparkNode:
     host_private_ip: str = attr.ib()
 
 
-# DbfsStorageInfo:  DBFS storage information [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dbfsstorageinfo
 @attr.s
 class DbfsStorageInfo:
+    """DbfsStorageInfo:  DBFS storage information [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dbfsstorageinfo
+    """
     destination: str = attr.ib()
-
-# ClusterLogConf:  Path to cluster log. [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterlogconf
 
 
 @attr.s
 class ClusterLogConf:
+    """ClusterLogConf:  Path to cluster log. [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterlogconf
+    """
     dbfs: DbfsStorageInfo = attr.ib()
 
 
-# InitScriptInfo:  Path to an init script [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#initscriptinfo
 @attr.s
 class InitScriptInfo:
+    """InitScriptInfo:  Path to an init script [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#initscriptinfo
+    """
     dbfs: DbfsStorageInfo = attr.ib()
 
 
-# DockerBasicAuth:  Docker image connection information [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dockerbasicauth
 @attr.s
 class DockerBasicAuth:
+    """DockerBasicAuth:  Docker image connection information [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dockerbasicauth
+    """
     username: str = attr.ib()
     password: str = attr.ib()
-
-# DockerImage:  Docker image connection information [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dockerimage
 
 
 @attr.s
 class DockerImage:
+    """DockerImage:  Docker image connection information [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#dockerimage
+    """
     url: str = attr.ib()
     basic_auth: DockerBasicAuth = attr.ib()
 
@@ -79,12 +82,12 @@ class ClusterState(Enum):
     ERROR = 'ERROR'
     UNKNOWN = 'UNKNOWN'
 
-# LogSyncStatus:  Log delivery status [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#logsyncstatus
-
 
 @attr.s
 class LogSyncStatus:
+    """LogSyncStatus:  Log delivery status [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#logsyncstatus
+    """
     last_attempted: int = attr.ib()
     last_exception: str = attr.ib()
 
@@ -140,10 +143,11 @@ class TerminationCode(Enum):
     TRIAL_EXPIRED = 'TRIAL_EXPIRED'
 
 
-# TerminationParameter: Key that provides additional information about why a cluster was terminated [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#terminationparameter
 @attr.s
 class TerminationParameter:
+    """TerminationParameter: Key that provides additional information about why a cluster was terminated [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#terminationparameter
+    """
     username: str = attr.ib()
     azure_error_message: str = attr.ib(default=None)
     inactivity_duration_min: int = attr.ib(default=None)
@@ -153,21 +157,22 @@ class TerminationParameter:
     instance_pool_error_code: str = attr.ib(default=None)
     databricks_error_message: str = attr.ib(default=None)
 
-# TerminationReason: Reason why a cluster was terminated [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#TerminationReason
-
 
 @attr.s
 class TerminationReason:
+    """TerminationReason: Reason why a cluster was terminated [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#TerminationReason
+    """
     code: TerminationCode = attr.ib()
     type: TerminationType = attr.ib()
     parameters: TerminationParameter = attr.ib()
 
 
-# ClusterInfo:  Metadata about a cluster [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterinfo
 @attr.s
 class ClusterInfo:
+    """ClusterInfo:  Metadata about a cluster [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterinfo
+    """
     cluster_id: str = attr.ib()
     creator_user_name: str = attr.ib()
     spark_context_id: int = attr.ib()
@@ -200,6 +205,7 @@ class ClusterInfo:
     num_workers: int = attr.ib(default=None)
     autoscale: AutoScale = attr.ib(default=None)
 
+
 @unique
 class ClusterCloudProviderNodeStatus(Enum):
     """ClusterCloudProviderNodeStatus:  Status of an instance supplied by a cloud provider [1].
@@ -208,19 +214,23 @@ class ClusterCloudProviderNodeStatus(Enum):
     NotEnabledOnSubscription = 'NotEnabledOnSubscription'
     NotAvailableInRegion = 'NotAvailableInRegion'
 
-# ClusterCloudProviderNodeInfo:  Information about an instance supplied by a cloud provider [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustercloudprovidernodeinfo
+
 @attr.s
 class ClusterCloudProviderNodeInfo:
+    """ClusterCloudProviderNodeInfo:  Information about an instance supplied by a cloud provider [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustercloudprovidernodeinfo
+    """
     available_core_quota: int = attr.ib(default=None)
     total_core_quota: int = attr.ib(default=None)
     status: List[ClusterCloudProviderNodeStatus] = attr.ib(default=None)
 
-# NodeType:  Description of a Spark node type including both the dimensions
-# of the node and the instance type on which it will be hosted [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#nodetype
+
 @attr.s
 class NodeType:
+    """NodeType:  Description of a Spark node type including both the dimensions
+    of the node and the instance type on which it will be hosted [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#nodetype
+    """
     node_type_id: str = attr.ib()
     memory_mb: int = attr.ib()
     num_cores: float = attr.ib()
@@ -230,19 +240,25 @@ class NodeType:
     node_info: ClusterCloudProviderNodeInfo = attr.ib()
 
 
-# SparkVersion:  Databricks Runtime version of the cluster.
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#sparkversion
 @attr.s
 class SparkVersion:
+    """SparkVersion:  Databricks Runtime version of the cluster.
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#sparkversion
+    """
     key: str = attr.ib()
     name: str = attr.ib()
 
-# ClusterEvent:  Cluster event information [1].
-#  [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterevent
-ClusterEvent = namedtuple(
-    'ClusterEvent', ['cluster_id', 'timestamp', 'type', 'details'])
+
+@unique
+class ListOrder(Enum):
+    """ListOrder:  Generic ordering enum for list-based queries [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#listorder
+    """
+    DESC = 'DESC'
+    ASC = 'ASC'
 
 
+@unique
 class ClusterEventType(Enum):
     """ClusterEventType:  Type of a cluster event [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustereventtype
@@ -272,38 +288,21 @@ class ClusterEventType(Enum):
     UNPINNED = 'UNPINNED'
 
 
-
-# EventDetails:  Cluster event information [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#eventdetails
-EventDetails = namedtuple(
-    'EventDetails', ['current_num_workers', 'target_num_workers', 'previous_attributes', 'attributes',
-                     'previous_cluster_size', 'cluster_size', 'cause', 'reason', 'user'])
-
-
-# ClusterAttributes:  Common set of attributes set during cluster creation.
-# These attributes cannot be changed over the lifetime of a cluster. [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterattributes
-ClusterAttributes = namedtuple(
-    'ClusterAttributes', ['cluster_name', 'spark_version', 'spark_conf', 'node_type_id',
-                          'driver_node_type_id', 'ssh_public_keys', 'custom_tags', 'cluster_log_conf', 'init_scripts',
-                          'docker_image', 'spark_env_vars', 'autotermination_minutes', 'enable_elastic_disk',
-                          'instance_pool_id', 'cluster_source', 'policy_id'])
-
-
-# ClusterSize:  Cluster size specification [1].
-# [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustersize
-ClusterSize = namedtuple(
-    'ClusterSize', ['num_workers', 'autoscale'])
-
-
-class ListOrder(Enum):
-    """ListOrder:  Generic ordering enum for list-based queries [1].
-    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#listorder
+@attr.s
+class ClusterEventRequest:
+    """ClusterEventRequest: Cluster event request structure [1]
+    [1]: https://docs.microsoft.com/en-gb/azure/databricks/dev-tools/api/latest/clusters#--request-structure-10
     """
-    DESC = 'DESC'
-    ASC = 'ASC'
+    cluster_id: str = attr.ib()
+    start_time: int = attr.ib(default=None)
+    end_time: int = attr.ib(default=None)
+    order: ListOrder = attr.ib(default=None)
+    event_types: List[ClusterEventType] = attr.ib(default=None)
+    offset: int = attr.ib(default=None)
+    limit: int = attr.ib(default=None)
 
 
+@unique
 class ResizeCause(Enum):
     """ResizeCause:  Reason why a cluster was resized [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#resizecause
@@ -313,6 +312,16 @@ class ResizeCause(Enum):
     AUTORECOVERY = 'AUTORECOVERY'
 
 
+@attr.s
+class ClusterSize:
+    """ClusterSize:  Cluster size specification [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustersize
+    """
+    num_workers: int = attr.ib(default=None)
+    autoscale: AutoScale = attr.ib(default=None)
+
+
+@unique
 class ClusterSource(Enum):
     """ClusterSource:  Status code indicating why the cluster was terminated due to a pool failure [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clustersource
@@ -320,3 +329,88 @@ class ClusterSource(Enum):
     UI = 'UI'
     JOB = 'JOB'
     API = 'API'
+
+
+ClusterAttributes = namedtuple(
+    'ClusterAttributes', ['cluster_name', 'spark_version', 'spark_conf', 'node_type_id',
+                          'driver_node_type_id', 'ssh_public_keys', 'custom_tags', 'cluster_log_conf', 'init_scripts',
+                          'docker_image', 'spark_env_vars', 'autotermination_minutes', 'enable_elastic_disk',
+                          'instance_pool_id', 'cluster_source', 'policy_id'])
+
+
+@attr.s
+class ClusterAttributes:
+    """ClusterAttributes:  Common set of attributes set during cluster creation.
+    These attributes cannot be changed over the lifetime of a cluster. [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterattributes
+    """
+    cluster_name: str = attr.ib()
+    spark_version: str = attr.ib()
+    node_type_id: str = attr.ib()
+    driver_node_type_id: str = attr.ib()
+    autotermination_minutes: str = attr.ib()
+    enable_elastic_disk: bool = attr.ib()
+    cluster_source: ClusterSource = attr.ib()
+    ssh_public_keys: List[str] = attr.ib(default=None)
+    spark_conf: Dict = attr.ib(default=None)
+    custom_tags: Dict = attr.ib(default=None)
+    cluster_log_conf: ClusterLogConf = attr.ib(default=None)
+    init_scripts: List[InitScriptInfo] = attr.ib(default=None)
+    docker_image: DockerImage = attr.ib(default=None)
+    spark_env_vars: Dict = attr.ib(default=None)
+    instance_pool_id: str = attr.ib(default=None)
+    policy_id: str = attr.ib(default=None)
+
+@attr.s
+class EventDetails:
+    """EventDetails:  Cluster event information [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#eventdetails
+    """
+    user: str = attr.ib(default=None)
+    reason: TerminationReason = attr.ib(default=None)
+    current_num_workers: int = attr.ib(default=None)
+    target_num_workers: int = attr.ib(default=None)
+    previous_attributes: ClusterAttributes = attr.ib(default=None)
+    attributes: ClusterAttributes = attr.ib(default=None)
+    previous_cluster_size: ClusterSize = attr.ib(default=None)
+    cluster_size: ClusterSize = attr.ib(default=None)
+    cause: ResizeCause = attr.ib(default=None)
+
+
+@attr.s
+class ClusterEvent:
+    """ClusterEvent:  Cluster event information [1].
+    [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#clusterevent
+    """
+    cluster_id: str = attr.ib()
+    timestamp: int = attr.ib(default=None)
+    type: ClusterEventType = attr.ib(default=None)
+    details: EventDetails = attr.ib(default=None)
+
+
+@attr.s
+class ClusterEventResponse:
+    """ClusterEventRequest: Cluster event request response structure [1]
+    [1]: https://docs.microsoft.com/en-gb/azure/databricks/dev-tools/api/latest/clusters#--response-structure-5
+    """
+    events: List[ClusterEvent] = attr.ib(default=None)
+    total_count: int = attr.ib(default=None)
+    next_page: ClusterEventRequest = attr.ib(default=None)
+
+
+@attr.s
+class ClusterId:
+    """ClusterId: represents a cluster id.
+    Not official in the API data structures.
+    """
+    cluster_id: str = attr.ib()
+
+
+@attr.s
+class ClusterResizeRequest:
+    """ClusterResizeRequest: represents a resize request.
+    Not official in the API data structures.
+    """
+    cluster_id: str = attr.ib()
+    num_workers: int = attr.ib(default=None)
+    autoscale: AutoScale = attr.ib(default=None)

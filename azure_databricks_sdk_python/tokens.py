@@ -1,8 +1,9 @@
 from azure_databricks_sdk_python.api import API
-from azure_databricks_sdk_python.types.tokens import PublicTokenInfo
+from azure_databricks_sdk_python.types.tokens import PublicTokenInfo, TokenId
 
 from cattr import structure
 from typing import List
+
 
 class Tokens(API):
     """The Token API allows you to create, list, and revoke tokens
@@ -19,14 +20,12 @@ class Tokens(API):
             [PublicTokenInfo]: A list of token information for a user-workspace pair.
         """
         endpoint = '/token/list'
+
         res = self._get(endpoint)
-        if res.status_code == 200:
-            return structure(res.json().get('token_infos'), List[PublicTokenInfo])
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, structure(res.json().get('token_infos'), List[PublicTokenInfo]))
 
     def create(self, comment: str = None, lifetime_seconds: int = 7776000):
-        """Createsand return a token. 
+        """Create and return a token. 
 
         Args:
             comment (str, optional): Optional description to attach to the token. 
@@ -41,12 +40,10 @@ class Tokens(API):
         endpoint = '/token/create'
         data = {'lifetime_seconds': lifetime_seconds,
                 'comment': comment}
+
         res = self._post(endpoint, data)
-        if res.status_code == 200:
-            return {'token_value': res.json().get('token_value'),
-                    'token_info': PublicTokenInfo(**res.json().get('token_info'))}
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, {'token_value': res.json().get('token_value'),
+                                                   'token_info': PublicTokenInfo(**res.json().get('token_info'))})
 
     def delete(self, token_id: str):
         """Revoke an access token. 
@@ -55,12 +52,9 @@ class Tokens(API):
             token_id (str): The ID of the token to be revoked.
 
         Returns:
-            Boolean: In case of success or will raise an exception.
+            TokenId: in case of success or will raise an exception.
         """
         endpoint = '/token/delete'
         data = {'token_id': token_id}
         res = self._post(endpoint, data)
-        if res.status_code == 200:
-            return True
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, structure(data, TokenId))

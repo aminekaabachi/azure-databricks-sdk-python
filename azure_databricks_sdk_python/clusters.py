@@ -1,8 +1,9 @@
 from azure_databricks_sdk_python.api import API
-from azure_databricks_sdk_python.types.clusters import ClusterInfo, NodeType, SparkVersion
+from azure_databricks_sdk_python.types.clusters import *
 
-from cattr import structure
+from cattr import structure, unstructure
 from typing import List
+
 
 class Clusters(API):
     """The Clusters API allows you to create, start, edit, list, terminate, and delete clusters.
@@ -21,10 +22,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/list'
         res = self._get(endpoint)
-        if res.status_code == 200:
-            return structure(res.json().get('clusters'), List[ClusterInfo])
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, structure(res.json().get('clusters'), List[ClusterInfo]))
 
     def list_node_types(self):
         """Return a list of supported Spark node types. 
@@ -35,11 +33,8 @@ class Clusters(API):
         """
         endpoint = '/clusters/list-node-types'
         res = self._get(endpoint)
-        if res.status_code == 200:
-            return structure(res.json().get('node_types'), List[NodeType])
-        else:
-            self._handle_error(res)
-    
+        return self._safe_handle(res, structure(res.json().get('node_types'), List[NodeType]))
+
     def spark_versions(self):
         """Return the list of available runtime versions. 
         These versions can be used to launch a cluster.
@@ -50,10 +45,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/spark-versions'
         res = self._get(endpoint)
-        if res.status_code == 200:
-            return structure(res.json().get('versions'), List[SparkVersion])
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, structure(res.json().get('versions'), List[SparkVersion]))
 
     def get(self, cluster_id):
         """Retrieve the information for a cluster given its identifier. 
@@ -68,7 +60,129 @@ class Clusters(API):
         endpoint = '/clusters/get'
         data = {'cluster_id': cluster_id}
         res = self._get(endpoint, data)
-        if res.status_code == 200:
-            return structure(res.json(), ClusterInfo)
-        else:
-            self._handle_error(res)
+        return self._safe_handle(res, structure(res.json(), ClusterInfo))
+
+    def events(self, req: ClusterEventRequest, force: bool = True):
+        """Retrieve a list of events about the activity of a cluster. 
+
+        Args:
+            req (ClusterEventRequest): Cluster event request structure. This field is required.
+            force (bool): If false, it will check that req is a dict 
+            then pass it as is, with no type validation.
+        Returns:
+            ClusterEventResponse: Cluster event request response structure.
+        """
+        endpoint = '/clusters/events'
+        data = self._validate(req, ClusterEventRequest, force)
+        res = self._post(endpoint, unstructure(data))
+        return self._safe_handle(res, structure(res.json(), ClusterEventResponse))
+
+    def pin(self, cluster_id):
+        """Ensure that an all-purpose cluster configuration is retained 
+        even after a cluster has been terminated for more than 30 days. 
+        Pinning ensures that the cluster is always returned by the List API. 
+        Pinning a cluster that is already pinned has no effect.
+
+        Args:
+            cluster_id (str):The cluster to pin. This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/pin'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
+
+    def unpin(self, cluster_id):
+        """Allows the cluster to eventually be removed from the list returned 
+        by the List API. Unpinning a cluster that is not pinned has no effect.
+
+
+        Args:
+            cluster_id (str):The cluster to pin. This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/unpin'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
+
+    def delete(self, cluster_id):
+        """Terminate a cluster given its ID. 
+
+        Args:
+            cluster_id (str): The cluster to be terminated. 
+            This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/delete'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
+
+    def permanent_delete(self, cluster_id):
+        """Permanently delete a cluster. 
+
+        Args:
+            cluster_id (str): The cluster to be permanently deleted. 
+            This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/delete'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
+
+    def resize(self, req: ClusterResizeRequest, force: bool = True):
+        """Resize a cluster to have a desired number of workers. 
+        The cluster must be in the RUNNING state.
+
+        Args:
+            req (ClusterResizeRequest): Cluster resize request structure. This field is required.
+            force (bool): If false, it will check that req is a dict 
+            then pass it as is, with no type validation.
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/resize'
+        data = self._validate(req, ClusterResizeRequest, force)
+        res = self._post(endpoint, unstructure(data))
+        return self._safe_handle(res, structure(res.json(), ClusterEventResponse))
+
+    def restart(self, cluster_id):
+        """Restart a cluster given its ID.
+         The cluster must be in the RUNNING state.
+
+        Args:
+            cluster_id (str): The cluster to be started.
+            This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/resize'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
+
+    def start(self, cluster_id):
+        """Start a terminated cluster given its ID.
+
+        Args:
+            cluster_id (str): The cluster to be started.
+            This field is required.
+
+        Returns:
+            ClusterId: in case of success or will raise an exception.
+        """
+        endpoint = '/clusters/resize'
+        data = {'cluster_id': cluster_id}
+        res = self._post(endpoint, data)
+        return self._safe_handle(res, structure(data, ClusterId))
