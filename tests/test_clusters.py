@@ -15,12 +15,39 @@ attributes = {
     'num_workers': 1
 }
 
-def test_clusters_create_dict_forced():
 
+def test_clusters_list():
+    list = client.clusters.list()
+    assert isinstance(list, List)
+
+
+def test_clusters_list_node_types():
+    list = client.clusters.list_node_types()
+    assert len(list) > 0
+    assert isinstance(list[0], NodeType)
+
+def test_clusters_list_spark_versions():
+    list = client.clusters.spark_versions()
+    assert len(list) > 0
+    assert isinstance(list[0], SparkVersion)
+
+
+
+def test_clusters_create_dict_forced():
     created_id = client.clusters.create(attributes, True)
+    get_id = client.clusters.get(cluster_id=created_id.cluster_id)
     deleted_id = client.clusters.delete(cluster_id=created_id.cluster_id)
     assert created_id.cluster_id == deleted_id.cluster_id
+    assert created_id.cluster_id == get_id.cluster_id
 
+
+def test_clusters_events():
+    created_id = client.clusters.create(attributes, True)
+    events = client.clusters.events(ClusterEventRequest(created_id.cluster_id))
+    assert len(events.events) == 1
+    deleted_id = client.clusters.delete(cluster_id=created_id.cluster_id)
+    events = client.clusters.events(ClusterEventRequest(created_id.cluster_id))
+    assert len(events.events) == 2
 
 def test_clusters_create_terminate_and_delete_obj():
     # create cluser

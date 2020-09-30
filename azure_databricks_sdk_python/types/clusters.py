@@ -148,7 +148,7 @@ class TerminationParameter:
     """TerminationParameter: Key that provides additional information about why a cluster was terminated [1].
     [1]: https://docs.microsoft.com/en-us/azure/databricks/dev-tools/api/latest/clusters#terminationparameter
     """
-    username: str = attr.ib()
+    username: str = attr.ib(default=None)
     azure_error_message: str = attr.ib(default=None)
     inactivity_duration_min: int = attr.ib(default=None)
     instance_id: str = attr.ib(default=None)
@@ -175,7 +175,6 @@ class ClusterInfo:
     """
     cluster_id: str = attr.ib()
     creator_user_name: str = attr.ib()
-    spark_context_id: int = attr.ib()
     cluster_name: str = attr.ib()
     spark_version: str = attr.ib()
     node_type_id: str = attr.ib()
@@ -187,6 +186,7 @@ class ClusterInfo:
     start_time: int = attr.ib()
     last_state_loss_time: int = attr.ib()
     default_tags: Dict = attr.ib()
+    spark_context_id: int = attr.ib(default=None)
     jdbc_port: int = attr.ib(default=None)
     cluster_memory_mb: int = attr.ib(default=None)
     cluster_cores: float = attr.ib(default=None)
