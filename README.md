@@ -8,8 +8,6 @@
 [![GitHub](https://img.shields.io/github/license/aminekaabachi/azure-databricks-sdk-python?style=flat-square)](https://github.com/aminekaabachi/azure-databricks-sdk-python/blob/master/LICENSE)
 
 
-
-
 **azure-databricks-sdk-python** is a Python SDK for the [`Azure Databricks REST API 2.0`](<https://docs.microsoft.com/en-gb/azure/databricks/dev-tools/api/latest/>).
 
 -----------------

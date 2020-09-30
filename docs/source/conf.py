@@ -26,7 +26,9 @@ from recommonmark.transform import AutoStructify
 # # apparently index.rst can't search for markdown not in the same directory
 # shutil.copy("../../CONTRIBUTING.md", ".")
 
-sys.path.insert(0, os.path.abspath('../..'))
+
+sys.path.insert(0, os.path.abspath("../.."))
+sys.path.insert(0, os.path.abspath("_themes"))
 
 # -- Project information -----------------------------------------------------
 
@@ -71,10 +73,6 @@ release = '0.0.1'
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'alabaster'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -99,14 +97,14 @@ html_static_path = ['_static']
 master_doc = 'index'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
-add_function_parentheses = True
+add_function_parentheses = False
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
-add_module_names = True
+add_module_names = False
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'flask_theme_support.FlaskyStyle'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
@@ -123,3 +121,5 @@ html_sidebars = {
         # "hacks.html",
     ],
 }
+
+html_show_sourcelink = False

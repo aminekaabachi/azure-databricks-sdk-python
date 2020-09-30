@@ -202,7 +202,7 @@ class Clusters(API):
         res = self._post(endpoint, data)
         return self._safe_handle(res, res.json(), ClusterId)
 
-    def edit(self, req: ClusterAttributes, force: bool = True):
+    def edit(self, req: ClusterAttributes, force: bool = False):
         """Edit the configuration of a cluster 
         to match the provided attributes and size.
 
@@ -214,6 +214,6 @@ class Clusters(API):
             ClusterId: in case of success or will raise an exception.
         """
         endpoint = '/clusters/edit'
-        data = self._validate(req, ClusterAttributes, force)
+        data = self._validate(req, ClusterAttributes, not force)
         res = self._post(endpoint, data)
-        return self._safe_handle(res, res.json(), ClusterId)
+        return self._safe_handle(res, ClusterId(data.get('cluster_id')))

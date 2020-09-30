@@ -157,7 +157,7 @@ class APIWithAuth:
         else:
             if not isinstance(req, dict):
                 raise ValueError(
-                    'Request is not a dict. {0}: {1} passed instead.'.format(type(req), req))
+                    'Request is not a dict. {0} passed instead.'.format(req))
             return data
 
 

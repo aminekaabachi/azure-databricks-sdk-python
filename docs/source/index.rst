@@ -27,7 +27,7 @@ Release v\ |version|. (:ref:`Installation <install>`)
 
 ---
 
-Easily, perform all the operations as if on the databricks UI::
+Easily, perform all the operations as if on the Databricks UI::
 
 
       from azure_databricks_sdk_python import Client
@@ -52,11 +52,11 @@ Beloved Features
 
 - Supports Personal Access token authentification.
 - Supports Azure AD authentification.
-- Supports the use of Service Principals.
+- Supports the use of Azure AD service principals.
 - Custom types for the API results and requests.
 - Force mode to bypass the types validation (in case you want to go hardcore).
 
-Requests officially supports 3.6+, and runs great on PyPy.
+Officially supports 3.6+, and runs great on PyPy.
 
 The User Guide
 --------------
@@ -69,6 +69,8 @@ instructions for getting the most out of it.
    :maxdepth: 2
 
    user/install
+   user/quickstart
+   user/advanced
 
 The API Documentation / Guide
 -----------------------------

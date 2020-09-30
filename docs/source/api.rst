@@ -5,8 +5,8 @@ Developer Interface
 
 .. module:: azure_databricks_sdk_python
 
-This part of the documentation covers all the interfaces of Requests. For
-parts where Requests depends on external libraries, we document the most
+This part of the documentation covers all the interfaces of the SDK. For
+parts where it depends on external libraries, we document the most
 important right here and provide links to the canonical documentation.
 
 
