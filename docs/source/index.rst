@@ -70,5 +70,16 @@ instructions for getting the most out of it.
 
    user/install
 
+The API Documentation / Guide
+-----------------------------
+
+If you are looking for information on a specific function, class, or method,
+this part of the documentation is for you.
+
+.. toctree::
+   :maxdepth: 2
+
+   api
+   
 There are no more guides. You are now guideless.
 Good luck.
