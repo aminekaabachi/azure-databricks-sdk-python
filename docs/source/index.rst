@@ -50,11 +50,13 @@ Beloved Features
 
 **azure-databricks-sdk-python** is ready for your use-case:
 
-- Supports Personal Access token authentification.
-- Supports Azure AD authentification.
-- Supports the use of Azure AD service principals.
-- Custom types for the API results and requests.
-- Force mode to bypass the types validation (in case you want to go hardcore).
+- Clear standard to access to APIs.
+- Contains custom types for the API results and requests.
+- Support for Personal Access token authentification.
+- Support for Azure AD authentification.
+- Support for the use of Azure AD service principals.
+- Allows free-style API calls with a force mode -(bypass types validation).
+- Error handeling and proxy support.
 
 Officially supports 3.6+, and runs great on PyPy.
 
