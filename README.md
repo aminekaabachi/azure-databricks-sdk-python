@@ -33,13 +33,15 @@ print(created.cluster_id)
 
 **azure-databricks-sdk-python** is ready for your use-case:
 
-- Supports Personal Access token authentification.
-- Supports Azure AD authentification.
-- Supports the use of Service Principals.
-- Custom types for the API results and requests.
-- Force mode to bypass the types validation (in case you want to go hardcore).
+- Clear standard to access to APIs.
+- Contains custom types for the API results and requests.
+- Support for Personal Access token authentification.
+- Support for Azure AD authentification.
+- Support for the use of Azure AD service principals.
+- Allows free-style API calls with a force mode -(bypass types validation).
+- Error handeling and proxy support.
 
-Requests officially supports 3.6+, and runs great on PyPy.
+Officially supports 3.6+, and runs great on PyPy.
 
 ## Implementation Progress
 
@@ -47,28 +49,29 @@ Please refer to the progress below:
 
 | Feature  | Progress |
 | :--- | :---: | 
-| Auth | 100% ✔ |
-| Custom types | 100% ✔ |
+| Authentification | 100% ✔ |
+| Custom types | 25% |
+| API Wrappers | 25% |
 | Error handling | 80% |
-| API Implementations | 25% |
 | Proxy support | 0% |
+| Documentaion | 10% |
 
 | API  | Progress |
 | :--- | :---: | 
 | Clusters API | 100% ✔ |
 | Secrets API | 100% ✔ |
 | Token API | 100% ✔ |
-| Clusters Policies API | 0% |
+| Jobs API | 0% |
 | DBFS API  | 0% |
 | Groups API  | 0% |
-| Instance Pools API | 0% |
-| Jobs API | 0% |
 | Libraries API | 0% |
+| Workspace API | 0% |
+| Clusters Policies API | 0% |
+| Instance Pools API | 0% |
 | MLflow API | 0% |
 | Permissions API | 0% |
 | SCIM API | 0% |
 | Token Management API | 0% |
-| Workspace API | 0% |
 
 ## Documentation
 
