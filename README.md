@@ -54,7 +54,7 @@ Please refer to the progress below:
 | API Wrappers | 25% |
 | Error handling | 80% |
 | Proxy support | 0% |
-| Documentaion | 10% |
+| Documentation | 20% |
 
 | API  | Progress |
 | :--- | :---: | 
