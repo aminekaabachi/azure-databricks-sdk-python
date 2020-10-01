@@ -63,13 +63,51 @@ The attributes of the tokens are accessible through dot chaining:
 Create a cluster
 ----------------
 
+You can create a new cluster using the following:
+
+    >>> cluster = client.tokens.create(attributes)
+
+``attributes`` are instance of :class:`azure_databricks_sdk_python.types.clusters.ClusterAttributes`.
+
+So before creating a cluster you need to create define its attributes. Here is an example:
+
+
+    >>> attributes = ClusterAttributes(cluster_name="my-cute-cluster", 
+                                       spark_version="7.2.x-scala2.12",
+                                       node_type_id="Standard_F4s", 
+                                       autoscale=autoscale)
+    
+
+.. Note::
+    You need at least the ``node_type_id``, ``spark_version`` and (``autoscale`` or ``num_workers``) to be able to create a valid cluster.
+
+Now ``create`` will return an instance of :class:`azure_databricks_sdk_python.types.clusters.ClusterInfo`. You can access it's properties through dot chainin, for example:
+
+    >>> cluster.cluster_id
+    '0918-220215-atria616'
+
+
 
 Get cluster details
 -------------------
 
+You can access an existing cluster details using the following synthax.
+
+    >>> details = client.clusters.get(cluster_id='<cluster_id>')
+
+It will return an instance of :class:`azure_databricks_sdk_python.types.clusters.ClusterInfo`. You can access it's properties through dot chainin, for example:
+
+    >>> details.state.name
+    'TERMINATED'
 
 Terminate a cluster
 -------------------
 
+You can easily terminate a cluster using this function:
 
+    >>> terminated = client.clusters.delete(cluster_id='<cluster_id>')
 
+It will return an instance of :class:`azure_databricks_sdk_python.types.clusters.ClusterId`. You can then get it by using:
+
+    >>> terminated.cluster_id
+    '0918-220215-atria616'

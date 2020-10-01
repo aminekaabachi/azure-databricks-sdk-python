@@ -103,18 +103,18 @@ def test_clusters_edit_start():
     get_id = client.clusters.get(cluster_id=cluster_id)
     assert get_id.cluster_name == "test-cluster-edited"
 
-    client.clusters.start(cluster_id=cluster_id)
+    # client.clusters.start(cluster_id=cluster_id)
 
-    while True:
-        time.sleep(30)
-        get_id = client.clusters.get(cluster_id=cluster_id)
-        state = get_id.state
-        if state in [ClusterState.RUNNING, ClusterState.ERROR]:
-            break
+    # while True:
+    #     time.sleep(30)
+    #     get_id = client.clusters.get(cluster_id=cluster_id)
+    #     state = get_id.state
+    #     if state in [ClusterState.RUNNING, ClusterState.ERROR]:
+    #         break
 
-    get_id = client.clusters.get(cluster_id=cluster_id)
-    state = get_id.state
-    assert state == ClusterState.RUNNING
+    # get_id = client.clusters.get(cluster_id=cluster_id)
+    # state = get_id.state
+    # assert state == ClusterState.RUNNING
 
     client.clusters.permanent_delete(cluster_id=cluster_id)
 
