@@ -22,7 +22,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/list'
         res = self._get(endpoint)
-        return self._safe_handle(res, res.json().get('clusters'), List[ClusterInfo])
+        return self._safe_handle(res, res.json().get('clusters', []), List[ClusterInfo])
 
     def list_node_types(self):
         """Return a list of supported Spark node types. 
@@ -33,7 +33,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/list-node-types'
         res = self._get(endpoint)
-        return self._safe_handle(res, res.json().get('node_types'), List[NodeType])
+        return self._safe_handle(res, res.json().get('node_types', []), List[NodeType])
 
     def spark_versions(self):
         """Return the list of available runtime versions. 
@@ -45,7 +45,7 @@ class Clusters(API):
         """
         endpoint = '/clusters/spark-versions'
         res = self._get(endpoint)
-        return self._safe_handle(res, res.json().get('versions'), List[SparkVersion])
+        return self._safe_handle(res, res.json().get('versions', []), List[SparkVersion])
 
     def get(self, cluster_id):
         """Retrieve the information for a cluster given its identifier. 

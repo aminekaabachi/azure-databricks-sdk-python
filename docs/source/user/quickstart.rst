@@ -79,7 +79,7 @@ So before creating a cluster you need to create define its attributes. Here is a
     
 
 .. Note::
-    You need at least the ``node_type_id``, ``spark_version`` and (``autoscale`` or ``num_workers``) to be able to create a valid cluster.
+    You need at least the ``cluster_name``, ``node_type_id``, ``spark_version`` and (``autoscale`` or ``num_workers``) to be able to create a valid cluster.
 
 Now ``create`` will return an instance of :class:`azure_databricks_sdk_python.types.clusters.ClusterInfo`. You can access it's properties through dot chainin, for example:
 

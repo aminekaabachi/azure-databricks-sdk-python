@@ -22,7 +22,7 @@ class Tokens(API):
         endpoint = '/token/list'
 
         res = self._get(endpoint)
-        return self._safe_handle(res, res.json().get('token_infos'), List[PublicTokenInfo])
+        return self._safe_handle(res, res.json().get('token_infos', []), List[PublicTokenInfo])
 
     def create(self, comment: str = None, lifetime_seconds: int = 7776000):
         """Create and return a token. 

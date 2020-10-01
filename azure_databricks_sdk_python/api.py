@@ -4,6 +4,7 @@ import urllib.parse
 from cattr import structure, unstructure
 
 from azure_databricks_sdk_python.types import AuthMethods
+from azure_databricks_sdk_python.exceptions import *
 
 
 class API:
@@ -94,19 +95,18 @@ class APIWithAuth:
             res (Response): the response object from http call.
 
         Raises:
-            Exception: In case of authorization error.
-            Exception: For all other cases.
+            AuthorizationError: In case of authorization error.
+            ERROR_CODES[Exception]: For all speicfic cases, check exceptions.py .
+            APIError: for all other cases
         """
 
-        # TODO: Implement proper error handling.
-
         if res.status_code == 403:
-            raise Exception("Not authorized or invalid token.")
+            raise AuthorizationError(res.json().get('message'))
+        elif res.json().get("error_code") in ERROR_CODES:
+            raise ERROR_CODES[res.json().get('error_code')](res.json().get('message'))
         else:
-            raise Exception("Response code {0}: {1} {2}".format(res.status_code,
-                                                                res.json().get('error_code'),
-                                                                res.json().get('message')))
-
+            raise APIError("API returned an error {0}: {1} {2}".format(res.status_code, res.json().get('error_code'), res.json().get('message')))
+          
     def _safe_handle(self, res, value, type=None):
         """Helper method to safely handle http response
 
