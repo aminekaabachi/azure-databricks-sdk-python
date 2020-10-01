@@ -48,11 +48,16 @@ Please refer to the progress below:
 | Feature  | Progress |
 | :--- | :---: | 
 | Auth | 100% ✔ |
-| Error handling | 30% |
+| Custom types | 100% ✔ |
+| Error handling | 80% |
+| API Implementations | 25% |
+| Proxy support | 0% |
 
 | API  | Progress |
 | :--- | :---: | 
 | Clusters API | 100% ✔ |
+| Secrets API | 100% ✔ |
+| Token API | 100% ✔ |
 | Clusters Policies API | 0% |
 | DBFS API  | 0% |
 | Groups API  | 0% |
@@ -62,8 +67,6 @@ Please refer to the progress below:
 | MLflow API | 0% |
 | Permissions API | 0% |
 | SCIM API | 0% |
-| Secrets API | 0% |
-| Token API | 100% ✔ |
 | Token Management API | 0% |
 | Workspace API | 0% |
 

@@ -1,6 +1,7 @@
 from azure_databricks_sdk_python.types import AuthMethods
 from azure_databricks_sdk_python.tokens import Tokens
 from azure_databricks_sdk_python.clusters import Clusters
+from azure_databricks_sdk_python.secrets import Secrets
 
 
 # Current API version
@@ -19,6 +20,8 @@ class Composer:
         """
         self.tokens = Tokens(**args)
         self.clusters = Clusters(**args)
+        self.secrets = Secrets(**args)
+
         return self
 
 
