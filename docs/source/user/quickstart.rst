@@ -17,9 +17,48 @@ Let's get started with some simple examples.
 Authenticate
 ------------
 
+The easiest way to access the Databricks APIs is through using a `personal access token <https://docs.databricks.com/dev-tools/api/latest/authentication.html#generate-a-personal-access-token>`_.
+
+Begin by importing the :class:`azure_databricks_sdk_python.clients.Client` class from SDK module::
+
+    >>> from azure_databricks_sdk_python import Client
+
+You can now instantiate a client object. You need to pass the databricks instance (format: adb-<XXX>.<X>.azuredatabricks.net) and your token:
+
+    >>> client = Client(databricks_instance=<instance>, personal_access_token=<token>)
+
+If you try to evaluate ``client`` now:
+
+    >>> client
+    <azure_databricks_sdk_python.client.PersonalAccessTokenClient object at 0x10a03a700>
+
+You now have a PersonalAccessTokenClient that allows you to access Databricks APIs with a personal access token.
+
+.. Note::
+    No internal connection test is done when you instantiate a client! 
+
+You can use client.test_connection() to do a connection test, as the following:
+
+    >>> client.test_connection()
+    True
+
 Generate a token
 ----------------
 
+You can create a new token by using the following:
+
+    >>> token = client.tokens.create(comment="A happy token from the docs.")
+
+All the return token is an instance of :class:`azure_databricks_sdk_python.types.tokens.Token`.
+If you evaluate it, you get:
+
+    >>> token
+    Token(token_value='<redacted>', token_info=PublicTokenInfo(token_id='<redacted>', creation_time=1601551181943, expiry_time=1609327181943, comment='A happy token from the docs.'))
+
+The attributes of the tokens are accessible through dot chaining:
+
+    >>> token.token_info.comment
+    'A happy token from the docs.'
 
 Create a cluster
 ----------------

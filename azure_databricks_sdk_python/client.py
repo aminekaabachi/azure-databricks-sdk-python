@@ -60,6 +60,14 @@ class BaseClient:
         """
         return getattr(self._composed, attr)
 
+    def test_connection(self):
+        """Tests to connection to databricks
+        """
+        try:
+            return isinstance(self._composed.clusters.list(), list)
+        except Exception:
+            #TODO: add logging
+            return False
 
 class PersonalAccessTokenClient(BaseClient):
     """Client that authentificates using PERSONAL_ACCESS_TOKEN method"""

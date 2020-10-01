@@ -21,7 +21,6 @@ class API:
         """
         auth_method = kwargs.pop('auth_method')
         base_url = kwargs.pop('base_url')
-        print(base_url)
         if (auth_method == AuthMethods.PERSONAL_ACCESS_TOKEN):
             token = kwargs.pop('personal_access_token')
             self._dispatcher = APIWithPersonalAccessToken(
@@ -70,7 +69,6 @@ class APIWithAuth:
             Response: the response object from http call.
         """
         url = urllib.parse.urljoin(self._base_url, endpoint.lstrip('/'))
-        print(url)
         return requests.get(url=url, headers=self._headers, json=data)
 
     def _post(self, endpoint: str, data=None):
@@ -146,7 +144,6 @@ class APIWithAuth:
         data = req
 
         if validate:
-            print(type)
             if not isinstance(req, type):
                 try:
                     data = structure(req, type)

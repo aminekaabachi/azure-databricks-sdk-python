@@ -109,7 +109,7 @@ def test_clusters_edit_start():
         time.sleep(30)
         get_id = client.clusters.get(cluster_id=cluster_id)
         state = get_id.state
-        if state in [ClusterState.RUNNING, ClusterState.TERMINATED, ClusterState.ERROR]:
+        if state in [ClusterState.RUNNING, ClusterState.ERROR]:
             break
 
     get_id = client.clusters.get(cluster_id=cluster_id)

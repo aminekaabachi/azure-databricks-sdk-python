@@ -72,8 +72,8 @@ instructions for getting the most out of it.
    user/quickstart
    user/advanced
 
-The API Documentation / Guide
------------------------------
+The API Documentation
+---------------------
 
 If you are looking for information on a specific function, class, or method,
 this part of the documentation is for you.
@@ -83,5 +83,14 @@ this part of the documentation is for you.
 
    api
 
-There are no more guides. You are now guideless.
+Miscellaneous
+-------------
+
+.. toctree::
+   :maxdepth: 1
+
+   updates
+
+There are no more guides. 
+You are now guideless.
 Good luck.
