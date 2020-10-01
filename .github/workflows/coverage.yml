@@ -9,16 +9,6 @@ on:
       - ".coveragerc"
       - "requirements.txt"
       - "requirements-tests.txt"
-  
-  pull_request:
-    branches: [ master ]
-    paths:
-      - "azure_databricks_sdk_python/**.py"
-      - "tests/**.py"
-      - ".github/workflows/**.yml"
-      - ".coveragerc"
-      - "requirements.txt"
-      - "requirements-tests.txt"
 
 jobs:
   coverage:

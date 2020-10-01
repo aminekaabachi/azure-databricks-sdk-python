@@ -47,12 +47,12 @@ Please refer to the progress below:
 
 | Feature  | Progress |
 | :--- | :---: | 
-| Auth | 80% |
+| Auth | 100% ✔ |
 | Error handling | 30% |
 
 | API  | Progress |
 | :--- | :---: | 
-| Clusters API | 80% |
+| Clusters API | 100% ✔ |
 | Clusters Policies API | 0% |
 | DBFS API  | 0% |
 | Groups API  | 0% |
