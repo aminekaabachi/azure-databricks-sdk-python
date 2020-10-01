@@ -185,6 +185,7 @@ class ClusterInfo:
     start_time: int = attr.ib()
     last_state_loss_time: int = attr.ib()
     default_tags: Dict = attr.ib()
+    cluster_id: str = attr.ib(default=None)
     spark_context_id: int = attr.ib(default=None)
     jdbc_port: int = attr.ib(default=None)
     cluster_memory_mb: int = attr.ib(default=None)
