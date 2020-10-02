@@ -87,7 +87,6 @@ Now ``create`` will return an instance of :class:`azure_databricks_sdk_python.ty
     '0918-220215-atria616'
 
 
-
 Get cluster details
 -------------------
 

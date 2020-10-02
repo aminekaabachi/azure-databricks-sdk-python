@@ -68,8 +68,10 @@ exclude_patterns = []
 # # The full version, including alpha/beta/rc tags.
 # release = azure_databricks_sdk_python.__version__
 
-version = '0.0.1'
-release = '0.0.1'
+from azure_databricks_sdk_python import __VERSION__
+
+version = __VERSION__
+release = __VERSION__
 
 # -- Options for HTML output -------------------------------------------------
 
