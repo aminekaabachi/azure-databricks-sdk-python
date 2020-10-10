@@ -70,7 +70,10 @@ class APIWithAuth:
             Response: the response object from http call.
         """
         url = urllib.parse.urljoin(self._base_url, endpoint.lstrip('/'))
-        return requests.get(url=url, headers=self._headers, json=data)
+        try:
+            return requests.get(url=url, headers=self._headers, json=data)
+        except requests.exceptions.ConnectionError as err:
+            raise EndpointError(err)
 
     def _post(self, endpoint: str, data=None):
         """Performs a http post to BASE_URL/endpoint 
@@ -86,7 +89,10 @@ class APIWithAuth:
         data_json = json.dumps(data, ensure_ascii=False)
         url = self._base_url + endpoint
         url = urllib.parse.urljoin(self._base_url, endpoint.lstrip('/'))
-        return requests.post(url=url, headers=self._headers, data=data_json)
+        try:
+            return requests.post(url=url, headers=self._headers, data=data_json)
+        except requests.exceptions.ConnectionError as err:
+            raise EndpointError(err)
 
     def _handle_error(self, res):
         """Helper method to handle http errors

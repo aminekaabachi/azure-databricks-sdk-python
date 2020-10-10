@@ -56,6 +56,11 @@ class MaxReadSizeExceeded(HTTPError):
 class DirectoryNotEmpty(HTTPError):
     """  """
 
+class ConnectionFailed(Warning):
+    """  """
+
+class EndpointError(Warning):
+    """  """
 
 ERROR_CODES = {
     "RESOURCE_DOES_NOT_EXIST": ResourceDoesNotExist,
