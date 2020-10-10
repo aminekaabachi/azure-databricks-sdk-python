@@ -165,7 +165,7 @@ class TerminationReason:
     """
     code: TerminationCode = attr.ib()
     type: TerminationType = attr.ib()
-    parameters: TerminationParameter = attr.ib()
+    parameters: TerminationParameter = attr.ib(default=None)
 
 
 @attr.s

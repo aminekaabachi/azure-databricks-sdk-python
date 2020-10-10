@@ -2,10 +2,14 @@ from azure_databricks_sdk_python.types import AuthMethods
 from azure_databricks_sdk_python.tokens import Tokens
 from azure_databricks_sdk_python.clusters import Clusters
 from azure_databricks_sdk_python.secrets import Secrets
-
+from azure_databricks_sdk_python.exceptions import *
+import warnings
 
 # Current API version
 API_VERSION = 2.0
+
+
+
 
 class Composer:
     """ Composer that aggregates API wrappers """
@@ -68,8 +72,14 @@ class BaseClient:
         """
         try:
             return isinstance(self._composed.clusters.list(), list)
-        except Exception:
-            #TODO: add logging
+        except EndpointError:
+            warnings.warn("Connection error: Databricks instance is wrong or unreachable.", ConnectionFailed)
+            return False
+        except AuthorizationError as err:
+            warnings.warn("Connection failed beauce of an authorisation error: {}".format(err), ConnectionFailed)
+            return False            
+        except Exception as err:
+            warnings.warn("Connection failed: {}".format(err), ConnectionFailed)
             return False
 
 class PersonalAccessTokenClient(BaseClient):
