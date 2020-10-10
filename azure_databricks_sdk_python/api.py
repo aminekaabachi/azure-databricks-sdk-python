@@ -155,7 +155,7 @@ class APIWithAuth:
                     data = structure(req, type)
                 except Exception as err:
                     raise ValueError(
-                        'Request is a valid {0}: {1}'.format(type.__name__, err))
+                        'Request is not a valid {0}: {1}'.format(type.__name__, err))
             return unstructure(data)
         else:
             if not isinstance(req, dict):
