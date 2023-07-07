@@ -6,6 +6,10 @@
 Azure Databricks SDK Python
 ===========================
 
+.. warning::
+    This project has been archived and is no longer actively maintained or supported. 
+    We highly recommend migrating to the official Databricks SDK for Python available at https://github.com/databricks/databricks-sdk-py.
+
 Release v\ |version|. (:ref:`Installation <install>`)
 
 .. image:: https://img.shields.io/github/workflow/status/aminekaabachi/azure-databricks-sdk-python/Unit%20Tests/master?style=flat-square
